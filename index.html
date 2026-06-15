@@ -742,6 +742,41 @@
   .cicilan-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 12px; padding: 2px 4px; border-radius: 4px; }
   .cicilan-del:hover { color: var(--red); }
  
+  /* ── Detail tabs (Catat Pembayaran / Tambah Hutang) ── */
+  .detail-tabs { display: flex; gap: 4px; margin-bottom: 12px; }
+  .detail-tab {
+    flex: 1;
+    padding: 7px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border2);
+    background: transparent;
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .15s;
+    color: var(--muted2);
+    text-align: center;
+  }
+  .detail-tab.active { background: var(--card2); color: var(--text); border-color: var(--border2); }
+  .detail-tab-panel { display: none; }
+  .detail-tab-panel.active { display: block; }
+  .tambah-hutang-btn {
+    background: var(--amber-dim);
+    border: 1px solid rgba(245,158,11,0.3);
+    color: var(--amber);
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity .12s;
+  }
+  .tambah-hutang-btn:hover { opacity: .8; }
+  .cicilan-amt.tambah { color: var(--amber); }
+ 
   .badge-lunas {
     display: inline-block;
     font-size: 10px;
@@ -2202,6 +2237,85 @@ function deletePayment(debtId, payId) {
   renderDebtSummary();
 }
  
+function addDebtAmount(id) {
+  const amtEl = document.getElementById('adddebt-amt-' + id);
+  const dateEl = document.getElementById('adddebt-date-' + id);
+  const noteEl = document.getElementById('adddebt-note-' + id);
+  const amt = parseFloat(amtEl.value);
+  if (!amt || amt <= 0) { showToast('⚠️ Masukkan jumlah tambahan'); return; }
+ 
+  const d = (state.debts||[]).find(d => d.id === id);
+  if (!d) return;
+  if (!d.originalAmount) d.originalAmount = d.amount;
+  d.additions = d.additions || [];
+  d.additions.unshift({
+    id: uuid(),
+    amount: amt,
+    isoDate: dateEl.value || localDateStr(),
+    note: noteEl.value.trim() || '-'
+  });
+  // Update total amount
+  const totalAdded = d.additions.reduce((a,x)=>a+x.amount, 0);
+  d.amount = d.originalAmount + totalAdded;
+ 
+  amtEl.value = '';
+  noteEl.value = '';
+  save();
+  renderDebtList();
+  renderDebtSummary();
+  showToast('➕ Hutang bertambah');
+}
+ 
+function deleteDebtAddition(debtId, addId) {
+  const d = (state.debts||[]).find(d => d.id === debtId);
+  if (!d) return;
+  d.additions = (d.additions||[]).filter(x => x.id !== addId);
+  const totalAdded = d.additions.reduce((a,x)=>a+x.amount, 0);
+  d.amount = (d.originalAmount || d.amount) + totalAdded;
+  save();
+  renderDebtList();
+  renderDebtSummary();
+}
+ 
+function buildCombinedHistory(d) {
+  const payments = (d.payments||[]).map(p => ({ ...p, _kind: 'bayar' }));
+  const additions = (d.additions||[]).map(x => ({ ...x, _kind: 'tambah' }));
+  const combined = [...payments, ...additions].sort((a,b) => b.isoDate > a.isoDate ? 1 : -1);
+  if (!combined.length) return '';
+  return combined.map(item => {
+    const tgl = new Date(item.isoDate+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
+    if (item._kind === 'bayar') {
+      return `<div class="cicilan-item">
+        <span class="cicilan-date">${tgl}</span>
+        <span class="cicilan-note" style="color:var(--muted2);">${esc(item.note)}</span>
+        <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:var(--green-dim);color:var(--green);font-weight:600;">Bayar</span>
+        <span class="cicilan-amt">+${fmt(item.amount)}</span>
+        <button class="cicilan-del" onclick="deletePayment('${d.id}','${item.id}')">✕</button>
+      </div>`;
+    } else {
+      return `<div class="cicilan-item">
+        <span class="cicilan-date">${tgl}</span>
+        <span class="cicilan-note" style="color:var(--muted2);">${esc(item.note)}</span>
+        <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:var(--amber-dim);color:var(--amber);font-weight:600;">Tambah</span>
+        <span class="cicilan-amt tambah">+${fmt(item.amount)}</span>
+        <button class="cicilan-del" onclick="deleteDebtAddition('${d.id}','${item.id}')">✕</button>
+      </div>`;
+    }
+  }).join('');
+}
+ 
+function switchDetailTab(id, tab) {
+  const panelBayar = document.getElementById('dpanel-bayar-' + id);
+  const panelTambah = document.getElementById('dpanel-tambah-' + id);
+  const tabBayar = document.getElementById('dtab-bayar-' + id);
+  const tabTambah = document.getElementById('dtab-tambah-' + id);
+  if (!panelBayar || !panelTambah) return;
+  panelBayar.classList.toggle('active', tab === 'bayar');
+  panelTambah.classList.toggle('active', tab === 'tambah');
+  tabBayar.classList.toggle('active', tab === 'bayar');
+  tabTambah.classList.toggle('active', tab === 'tambah');
+}
+ 
 function toggleDebtDetail(id) {
   const el = document.getElementById('detail-' + id);
   if (el) el.classList.toggle('open');
@@ -2292,14 +2406,6 @@ function renderDebtList() {
  
     const todayVal = localDateStr();
  
-    const paymentRows = (d.payments||[]).map(p =>
-      `<div class="cicilan-item">
-        <span class="cicilan-date">${new Date(p.isoDate+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'})}</span>
-        <span class="cicilan-note">${esc(p.note)}</span>
-        <span class="cicilan-amt">+${fmt(p.amount)}</span>
-        <button class="cicilan-del" onclick="deletePayment('${d.id}','${p.id}')">✕</button>
-      </div>`
-    ).join('');
  
     return `<div class="debt-card ${cls}">
       <div class="debt-card-header" onclick="toggleDebtDetail('${d.id}')">
@@ -2335,15 +2441,34 @@ function renderDebtList() {
         </div>
  
         <div class="cicilan-section">
-          <div class="cicilan-title">Riwayat Pembayaran</div>
-          ${!isLunas ? `<div class="cicilan-add-row">
-            <input type="number" id="pay-amt-${d.id}" placeholder="Jumlah bayar (Rp)..." min="0"/>
-            <input type="date" id="pay-date-${d.id}" value="${todayVal}"/>
-            <input type="text" id="pay-note-${d.id}" placeholder="Keterangan..."/>
-            <button class="cicilan-btn" onclick="addPayment('${d.id}')">+ Catat</button>
-          </div>` : ''}
+          ${!isLunas ? `
+          <div class="detail-tabs">
+            <button class="detail-tab active" id="dtab-bayar-${d.id}" onclick="switchDetailTab('${d.id}','bayar')">💸 Catat Pembayaran</button>
+            <button class="detail-tab" id="dtab-tambah-${d.id}" onclick="switchDetailTab('${d.id}','tambah')">➕ Tambah Hutang</button>
+          </div>
+          <div class="detail-tab-panel active" id="dpanel-bayar-${d.id}">
+            <div class="cicilan-title">Catat Pembayaran</div>
+            <div class="cicilan-add-row">
+              <input type="number" id="pay-amt-${d.id}" placeholder="Jumlah bayar (Rp)..." min="0"/>
+              <input type="date" id="pay-date-${d.id}" value="${todayVal}"/>
+              <input type="text" id="pay-note-${d.id}" placeholder="Keterangan..."/>
+              <button class="cicilan-btn" onclick="addPayment('${d.id}')">+ Catat</button>
+            </div>
+          </div>
+          <div class="detail-tab-panel" id="dpanel-tambah-${d.id}">
+            <div class="cicilan-title">Tambah Nominal Hutang</div>
+            ${d.originalAmount ? `<div style="font-size:11px;color:var(--amber);background:var(--amber-dim);border-radius:6px;padding:6px 10px;margin-bottom:8px;">📌 Pokok awal: ${fmt(d.originalAmount)} · Ditambah ${(d.additions||[]).length}× (${fmt((d.additions||[]).reduce((a,x)=>a+x.amount,0))})</div>` : ''}
+            <div class="cicilan-add-row">
+              <input type="number" id="adddebt-amt-${d.id}" placeholder="Jumlah tambahan (Rp)..." min="0"/>
+              <input type="date" id="adddebt-date-${d.id}" value="${todayVal}"/>
+              <input type="text" id="adddebt-note-${d.id}" placeholder="Alasan / keterangan..."/>
+              <button class="tambah-hutang-btn" onclick="addDebtAmount('${d.id}')">+ Tambah</button>
+            </div>
+          </div>
+          ` : ''}
+          <div class="cicilan-title" style="margin-top:${!isLunas?'10px':'0'};">Riwayat ${isLunas ? 'Pembayaran' : 'Lengkap'}</div>
           <div class="cicilan-list">
-            ${paymentRows || `<div style="color:var(--muted);font-size:12px;padding:6px 0;">Belum ada pembayaran.</div>`}
+            ${buildCombinedHistory(d) || `<div style="color:var(--muted);font-size:12px;padding:6px 0;">Belum ada riwayat.</div>`}
           </div>
         </div>
  
