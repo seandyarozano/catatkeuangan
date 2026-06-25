@@ -20,7 +20,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
   :root {
     --bg: #0d0f14;
     --bg2: #13161e;
@@ -47,7 +47,7 @@
     --radius: 14px;
     --radius-sm: 8px;
   }
- 
+
   body {
     font-family: var(--font);
     background: var(--bg);
@@ -55,7 +55,7 @@
     min-height: 100vh;
     line-height: 1.6;
   }
- 
+
   /* Layout */
   .shell { display: flex; min-height: 100vh; }
   .sidebar {
@@ -72,7 +72,7 @@
     z-index: 10;
   }
   .main { margin-left: 220px; flex: 1; padding: 32px 36px; max-width: calc(100vw - 220px); }
- 
+
   /* Sidebar */
   .brand {
     padding: 28px 20px 20px;
@@ -90,7 +90,7 @@
     color: var(--muted);
     margin-top: 2px;
   }
- 
+
   .nav { padding: 16px 12px; flex: 1; }
   .nav-label {
     font-size: 10px;
@@ -118,7 +118,7 @@
   .nav-item:hover { background: var(--bg3); color: var(--text); }
   .nav-item.active { background: var(--green-dim); color: var(--accent); font-weight: 500; }
   .nav-icon { font-size: 15px; width: 18px; text-align: center; }
- 
+
   .sidebar-bottom {
     padding: 16px;
     border-top: 1px solid var(--border);
@@ -145,16 +145,16 @@
     cursor: pointer;
     outline: none;
   }
- 
+
   /* Views */
   .view { display: none; }
   .view.active { display: block; }
- 
+
   /* Page header */
   .page-header { margin-bottom: 28px; }
   .page-title { font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
   .page-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
- 
+
   /* Summary cards */
   .summary-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
   .sum-card {
@@ -174,14 +174,14 @@
   .sum-card.income::before { background: var(--green); }
   .sum-card.expense::before { background: var(--red); }
   .sum-card.balance::before { background: var(--blue); }
- 
+
   .sum-label { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
   .sum-val { font-family: var(--mono); font-size: 20px; font-weight: 500; letter-spacing: -.02em; }
   .sum-val.pos { color: var(--green); }
   .sum-val.neg { color: var(--red); }
   .sum-val.bal { color: var(--blue); }
   .sum-change { font-size: 11px; color: var(--muted); margin-top: 4px; }
- 
+
   /* Add transaction form */
   .form-card {
     background: var(--card);
@@ -209,7 +209,7 @@
   .form-input:focus, .form-select:focus { border-color: var(--accent); }
   .form-input::placeholder { color: var(--muted); }
   .form-select option { background: var(--card); }
- 
+
   .type-toggle { display: flex; gap: 4px; }
   .type-btn {
     flex: 1;
@@ -226,7 +226,7 @@
   }
   .type-btn.income.active { background: var(--green-dim); border-color: rgba(16,217,142,0.3); color: var(--green); }
   .type-btn.expense.active { background: var(--red-dim); border-color: rgba(255,90,106,0.3); color: var(--red); }
- 
+
   .add-btn {
     background: var(--accent);
     color: #0d0f14;
@@ -242,7 +242,7 @@
     height: 38px;
   }
   .add-btn:hover { opacity: .85; }
- 
+
   /* Transactions list */
   .section-header {
     display: flex;
@@ -264,7 +264,7 @@
     transition: all .15s;
   }
   .filter-btn.active { background: var(--card2); color: var(--text); border-color: var(--border2); }
- 
+
   .tx-list { display: flex; flex-direction: column; gap: 2px; }
   .tx-item {
     display: flex;
@@ -279,7 +279,7 @@
   }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
   .tx-item:hover { background: var(--card2); }
- 
+
   .tx-dot {
     width: 36px; height: 36px;
     border-radius: 10px;
@@ -289,19 +289,19 @@
   }
   .tx-dot.income { background: var(--green-dim); color: var(--green); }
   .tx-dot.expense { background: var(--red-dim); color: var(--red); }
- 
+
   .tx-info { flex: 1; min-width: 0; }
   .tx-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tx-meta { font-size: 11px; color: var(--muted); margin-top: 1px; }
   .tx-cat { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 100px; border: 1px solid var(--border2); color: var(--muted2); margin-left: 6px; }
- 
+
   .tx-amount { font-family: var(--mono); font-size: 14px; font-weight: 500; text-align: right; }
   .tx-amount.income { color: var(--green); }
   .tx-amount.expense { color: var(--red); }
- 
+
   .tx-actions { display: flex; gap: 4px; opacity: 0; transition: opacity .12s; }
   .tx-item:hover .tx-actions { opacity: 1; }
- 
+
   .tx-del, .tx-edit {
     background: none;
     border: none;
@@ -314,7 +314,7 @@
   }
   .tx-edit:hover { color: var(--blue); background: var(--blue-dim); }
   .tx-del:hover { color: var(--red); background: var(--red-dim); }
- 
+
   /* Edit modal */
   .modal-backdrop {
     position: fixed; inset: 0;
@@ -364,12 +364,12 @@
     transition: opacity .12s;
   }
   .btn-save:hover { opacity: .85; }
- 
+
   /* Date input styling */
   input[type="date"] {
     color-scheme: dark;
   }
- 
+
   .empty-state {
     text-align: center;
     padding: 48px 20px;
@@ -377,7 +377,7 @@
     font-size: 13px;
   }
   .empty-icon { font-size: 32px; margin-bottom: 12px; opacity: .4; }
- 
+
   /* Budget view */
   .budget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .budget-card {
@@ -397,7 +397,7 @@
   .bud-nums { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
   .bud-spent { font-family: var(--mono); }
   .bud-limit { font-family: var(--mono); }
- 
+
   .set-budget-row { display: flex; gap: 8px; margin-top: 10px; }
   .set-budget-row input {
     flex: 1;
@@ -423,7 +423,7 @@
     transition: all .12s;
   }
   .set-btn:hover { color: var(--accent); border-color: rgba(16,217,142,0.3); }
- 
+
   /* Chart / Trend */
   .trend-card {
     background: var(--card);
@@ -433,7 +433,7 @@
     margin-bottom: 16px;
   }
   .trend-title { font-size: 13px; font-weight: 600; margin-bottom: 16px; color: var(--muted2); text-transform: uppercase; letter-spacing: .05em; }
- 
+
   .bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 120px; }
   .bar-group { flex: 1; display: flex; gap: 3px; align-items: flex-end; }
   .bar {
@@ -451,7 +451,7 @@
   .chart-legend { display: flex; gap: 16px; margin-bottom: 12px; }
   .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted2); }
- 
+
   /* Catatan harian */
   .note-card {
     background: var(--card);
@@ -501,7 +501,7 @@
   .note-text { color: var(--muted2); flex: 1; }
   .note-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 12px; opacity: 0; }
   .note-item:hover .note-del { opacity: 1; }
- 
+
   /* Goals view */
   .goal-list { display: flex; flex-direction: column; gap: 12px; }
   .goal-item {
@@ -518,7 +518,7 @@
   .goal-foot { display: flex; justify-content: space-between; font-size: 12px; }
   .goal-saved { color: var(--green); font-family: var(--mono); }
   .goal-target { color: var(--muted); font-family: var(--mono); }
- 
+
   .add-goal-form {
     background: var(--card);
     border: 1px solid var(--border);
@@ -527,12 +527,12 @@
     margin-bottom: 16px;
   }
   .goal-form-grid { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; align-items: end; }
- 
+
   /* Scrollbar */
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--card2); border-radius: 10px; }
- 
+
   /* Toast */
   .toast {
     position: fixed;
@@ -551,7 +551,7 @@
     gap: 8px;
   }
   @keyframes slideIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
- 
+
   .streak-badge {
     display: inline-flex;
     align-items: center;
@@ -564,7 +564,7 @@
     border-radius: 100px;
     margin-top: 6px;
   }
- 
+
   /* ── Hutang & Piutang ── */
   .debt-tabs { display: flex; gap: 6px; margin-bottom: 20px; }
   .debt-tab {
@@ -583,7 +583,7 @@
   }
   .debt-tab.hutang.active { background: var(--red-dim); border-color: rgba(255,90,106,0.3); color: var(--red); }
   .debt-tab.piutang.active { background: var(--blue-dim); border-color: rgba(96,165,250,0.3); color: var(--blue); }
- 
+
   .debt-summary-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
   .debt-sum-card {
     background: var(--card);
@@ -596,7 +596,7 @@
   .debt-sum-card.lunas { border-top: 2px solid var(--green); }
   .debt-sum-label { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 5px; }
   .debt-sum-val { font-family: var(--mono); font-size: 18px; font-weight: 500; }
- 
+
   .debt-add-form {
     background: var(--card);
     border: 1px solid var(--border);
@@ -605,7 +605,7 @@
     margin-bottom: 20px;
   }
   .debt-form-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr auto; gap: 10px; align-items: end; }
- 
+
   .debt-list { display: flex; flex-direction: column; gap: 12px; }
   .debt-card {
     background: var(--card);
@@ -617,7 +617,7 @@
   .debt-card.hutang { border-left: 3px solid var(--red); }
   .debt-card.piutang { border-left: 3px solid var(--blue); }
   .debt-card.lunas { border-left: 3px solid var(--green); opacity: .75; }
- 
+
   .debt-card-header {
     display: flex;
     align-items: center;
@@ -627,7 +627,7 @@
     user-select: none;
   }
   .debt-card-header:hover { background: var(--card2); }
- 
+
   .debt-avatar {
     width: 40px; height: 40px;
     border-radius: 10px;
@@ -640,36 +640,36 @@
   .debt-avatar.hutang { background: var(--red-dim); color: var(--red); }
   .debt-avatar.piutang { background: var(--blue-dim); color: var(--blue); }
   .debt-avatar.lunas { background: var(--green-dim); color: var(--green); }
- 
+
   .debt-info { flex: 1; min-width: 0; }
   .debt-name { font-size: 14px; font-weight: 600; }
   .debt-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
- 
+
   .debt-right { text-align: right; }
   .debt-sisa { font-family: var(--mono); font-size: 15px; font-weight: 600; }
   .debt-sisa.hutang { color: var(--red); }
   .debt-sisa.piutang { color: var(--blue); }
   .debt-sisa.lunas { color: var(--green); }
   .debt-prog-mini { font-size: 11px; color: var(--muted); margin-top: 2px; }
- 
+
   .debt-bar-wrap { margin: 0 18px 0; height: 4px; background: var(--bg3); border-radius: 100px; overflow: hidden; }
   .debt-bar-fill { height: 100%; border-radius: 100px; transition: width .4s; }
   .debt-bar-fill.hutang { background: var(--red); }
   .debt-bar-fill.piutang { background: var(--blue); }
   .debt-bar-fill.lunas { background: var(--green); }
- 
+
   .debt-detail {
     border-top: 1px solid var(--border);
     padding: 16px 18px;
     display: none;
   }
   .debt-detail.open { display: block; }
- 
+
   .debt-detail-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
   .debt-stat { background: var(--bg3); border-radius: var(--radius-sm); padding: 10px 12px; }
   .debt-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 4px; }
   .debt-stat-val { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--text); }
- 
+
   .cicilan-section { margin-top: 12px; }
   .cicilan-title { font-size: 12px; font-weight: 600; color: var(--muted2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
   .cicilan-add-row { display: flex; gap: 8px; margin-bottom: 10px; }
@@ -725,7 +725,7 @@
     transition: all .12s;
   }
   .del-debt-btn:hover { opacity: .8; }
- 
+
   .cicilan-list { display: flex; flex-direction: column; gap: 4px; max-height: 200px; overflow-y: auto; }
   .cicilan-item {
     display: flex;
@@ -741,42 +741,7 @@
   .cicilan-amt { font-family: var(--mono); font-weight: 500; color: var(--green); }
   .cicilan-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 12px; padding: 2px 4px; border-radius: 4px; }
   .cicilan-del:hover { color: var(--red); }
- 
-  /* ── Detail tabs (Catat Pembayaran / Tambah Hutang) ── */
-  .detail-tabs { display: flex; gap: 4px; margin-bottom: 12px; }
-  .detail-tab {
-    flex: 1;
-    padding: 7px 12px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border2);
-    background: transparent;
-    font-family: var(--font);
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all .15s;
-    color: var(--muted2);
-    text-align: center;
-  }
-  .detail-tab.active { background: var(--card2); color: var(--text); border-color: var(--border2); }
-  .detail-tab-panel { display: none; }
-  .detail-tab-panel.active { display: block; }
-  .tambah-hutang-btn {
-    background: var(--amber-dim);
-    border: 1px solid rgba(245,158,11,0.3);
-    color: var(--amber);
-    font-family: var(--font);
-    font-size: 12px;
-    font-weight: 600;
-    padding: 7px 14px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: opacity .12s;
-  }
-  .tambah-hutang-btn:hover { opacity: .8; }
-  .cicilan-amt.tambah { color: var(--amber); }
- 
+
   .badge-lunas {
     display: inline-block;
     font-size: 10px;
@@ -845,7 +810,7 @@
   .mob-nav-btn .mob-icon { font-size: 18px; line-height: 1; }
   .mob-nav-btn.active { color: var(--accent); }
   .mob-nav-btn.more-btn { position: relative; }
- 
+
   /* Sidebar overlay for mobile */
   .sidebar-overlay {
     display: none;
@@ -856,7 +821,7 @@
     backdrop-filter: blur(2px);
   }
   .sidebar-overlay.open { display: block; }
- 
+
   /* Mobile header bar */
   .mobile-header {
     display: none;
@@ -892,13 +857,13 @@
     color: var(--muted);
     font-family: var(--mono);
   }
- 
+
   /* ── Responsive breakpoints ── */
   @media (max-width: 768px) {
     /* Show mobile UI */
     .mobile-header { display: flex; }
     .mobile-nav { display: block; }
- 
+
     /* Sidebar becomes slide-in drawer */
     .sidebar {
       transform: translateX(-100%);
@@ -907,63 +872,63 @@
       width: 260px;
     }
     .sidebar.open { transform: translateX(0); }
- 
+
     /* Main fills full width, accounts for header + bottom nav */
     .main {
       margin-left: 0;
       max-width: 100vw;
       padding: 68px 16px max(80px, calc(60px + env(safe-area-inset-bottom)));
     }
- 
+
     /* Summary cards: 2 col on mobile */
     .summary-row { grid-template-columns: 1fr 1fr !important; gap: 10px; }
     .sum-val { font-size: 15px; }
- 
+
     /* Transaction form: stack vertically */
     .form-grid { grid-template-columns: 1fr !important; }
     .form-card { padding: 16px; }
- 
+
     /* Dashboard 2-col grid → 1 col */
     #view-dashboard > div[style*="grid-template-columns:1fr 1fr"] {
       grid-template-columns: 1fr !important;
     }
- 
+
     /* Budget grid: 1 col */
     .budget-grid { grid-template-columns: 1fr; }
- 
+
     /* Goal form: stack */
     .goal-form-grid { grid-template-columns: 1fr 1fr !important; }
- 
+
     /* Debt form: stack */
     .debt-form-grid { grid-template-columns: 1fr 1fr !important; }
     .debt-summary-row { grid-template-columns: 1fr !important; }
- 
+
     /* Debt detail grid */
     .debt-detail-grid { grid-template-columns: 1fr 1fr !important; }
- 
+
     /* Cicilan add row: wrap */
     .cicilan-add-row { flex-wrap: wrap; }
     .cicilan-add-row input[type="number"] { width: 100%; }
     .cicilan-add-row input[type="date"] { width: 100%; }
     .cicilan-add-row input[type="text"] { width: 100%; }
- 
+
     /* Modal full screen on mobile */
     .modal { max-width: 100%; margin: 0 12px; }
     .modal-grid { grid-template-columns: 1fr !important; }
- 
+
     /* tx actions always visible on mobile (no hover) */
     .tx-actions { opacity: 1; }
- 
+
     /* page header smaller */
     .page-title { font-size: 18px; }
- 
+
     /* Section header wrap */
     .section-header { flex-wrap: wrap; gap: 8px; }
- 
+
     /* Toast bottom above nav */
     .toast { bottom: 80px; right: 12px; left: 12px; }
   }
- 
+
   @media (max-width: 400px) {
     .summary-row { grid-template-columns: 1fr !important; }
     .sum-val { font-size: 18px; }
@@ -1058,7 +1023,7 @@
 </style>
 </head>
 <body>
- 
+
 <!-- Auth overlay (tampil sebelum login) -->
 <div class="auth-overlay" id="auth-overlay">
   <div class="auth-card">
@@ -1072,7 +1037,7 @@
   </div>
   <div style="font-size:11px;color:var(--muted);text-align:center;max-width:300px;">Data tersimpan aman di Firebase milik kamu sendiri. Tidak ada pihak lain yang bisa mengakses.</div>
 </div>
- 
+
 <!-- User bar (tampil setelah login) -->
 <div class="auth-user-bar hidden" id="auth-user-bar">
   <div class="auth-sync-badge" id="sync-badge">⚡ Tersinkron</div>
@@ -1080,19 +1045,19 @@
   <span id="auth-username"></span>
   <button class="auth-signout" onclick="signOut()">Keluar</button>
 </div>
- 
+
 <!-- Mobile header -->
 <header class="mobile-header" id="mobile-header">
   <button class="mob-menu-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
   <div class="mobile-header-title">💰 CatatKeuangan</div>
   <div class="mob-month-badge" id="mob-month-badge">Mei 2026</div>
 </header>
- 
+
 <!-- Sidebar overlay (mobile) -->
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
- 
+
 <div class="shell">
- 
+
 <!-- Sidebar -->
 <aside class="sidebar">
   <div class="brand">
@@ -1134,7 +1099,7 @@
     <div id="storage-indicator" style="margin-top:6px;font-size:10px;color:var(--muted);text-align:center;"></div>
   </div>
 </aside>
- 
+
 <!-- Mobile bottom navigation -->
 <nav class="mobile-nav" id="mobile-nav">
   <div class="mobile-nav-inner">
@@ -1164,14 +1129,14 @@
   </div>
 </nav>
 <main class="main">
- 
+
   <!-- DASHBOARD -->
   <div class="view active" id="view-dashboard">
     <div class="page-header">
       <h1 class="page-title" id="dash-month-title">Dashboard</h1>
       <p class="page-sub">Ringkasan keuangan bulan ini</p>
     </div>
- 
+
     <!-- Row 1: pemasukan / pengeluaran / saldo / hutang / piutang -->
     <div class="summary-row" style="grid-template-columns: repeat(5, 1fr);">
       <div class="sum-card income">
@@ -1200,7 +1165,7 @@
         <div class="sum-change" id="dash-piutang-info" style="color:var(--muted);">0 pos aktif</div>
       </div>
     </div>
- 
+
     <!-- Row 2: kategori & 50/30/20 -->
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
       <div class="trend-card" style="margin-bottom:0;">
@@ -1213,7 +1178,7 @@
         <div style="font-size:11px;color:var(--muted);margin-top:12px;">50% kebutuhan · 30% keinginan · 20% tabungan</div>
       </div>
     </div>
- 
+
     <!-- Row 3: transaksi terbaru -->
     <div class="section-header">
       <div class="section-title">Transaksi Terbaru</div>
@@ -1221,14 +1186,14 @@
     </div>
     <div class="tx-list" id="recent-tx-list"></div>
   </div>
- 
+
   <!-- TRANSAKSI -->
   <div class="view" id="view-transaksi">
     <div class="page-header">
       <h1 class="page-title">Transaksi</h1>
       <p class="page-sub">Catat setiap pemasukan dan pengeluaran</p>
     </div>
- 
+
     <div class="form-card">
       <div class="form-title">+ Tambah Transaksi</div>
       <div class="form-grid" style="grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr auto;">
@@ -1283,7 +1248,7 @@
         <button class="add-btn" onclick="addTx()">Tambah</button>
       </div>
     </div>
- 
+
     <div class="section-header">
       <div class="section-title" id="tx-count-label">Semua Transaksi</div>
       <div class="filter-row">
@@ -1294,7 +1259,7 @@
     </div>
     <div class="tx-list" id="tx-list"></div>
   </div>
- 
+
   <!-- ANGGARAN -->
   <div class="view" id="view-anggaran">
     <div class="page-header">
@@ -1303,14 +1268,14 @@
     </div>
     <div class="budget-grid" id="budget-grid"></div>
   </div>
- 
+
   <!-- TUJUAN -->
   <div class="view" id="view-tujuan">
     <div class="page-header">
       <h1 class="page-title">Tujuan Finansial</h1>
       <p class="page-sub">Pantau progress menuju target keuanganmu</p>
     </div>
- 
+
     <div class="add-goal-form">
       <div class="form-title">+ Tambah Tujuan</div>
       <div class="goal-form-grid">
@@ -1329,10 +1294,10 @@
         <button class="add-btn" onclick="addGoal()">Tambah</button>
       </div>
     </div>
- 
+
     <div class="goal-list" id="goal-list"></div>
   </div>
- 
+
   <!-- CATATAN -->
   <div class="view" id="view-catatan">
     <div class="page-header">
@@ -1348,7 +1313,7 @@
       <div class="note-list" id="note-list"></div>
     </div>
   </div>
- 
+
   <!-- TREN -->
   <div class="view" id="view-tren">
     <div class="page-header">
@@ -1369,23 +1334,23 @@
       <div id="all-months-summary" style="display:flex;flex-direction:column;gap:8px;"></div>
     </div>
   </div>
- 
+
   <!-- HUTANG & PIUTANG -->
   <div class="view" id="view-hutang">
     <div class="page-header">
       <h1 class="page-title">Hutang & Piutang</h1>
       <p class="page-sub">Pantau posisi dan proses pelunasan hutang serta piutang</p>
     </div>
- 
+
     <!-- Tab switcher -->
     <div class="debt-tabs">
       <button class="debt-tab hutang active" id="dtab-hutang" onclick="switchDebtTab('hutang')">🔴 Hutang <span id="hutang-count-badge" style="font-size:11px;margin-left:4px;opacity:.7;"></span></button>
       <button class="debt-tab piutang" id="dtab-piutang" onclick="switchDebtTab('piutang')">🔵 Piutang <span id="piutang-count-badge" style="font-size:11px;margin-left:4px;opacity:.7;"></span></button>
     </div>
- 
+
     <!-- Summary cards -->
     <div class="debt-summary-row" id="debt-summary-row"></div>
- 
+
     <!-- Add form -->
     <div class="debt-add-form">
       <div class="form-title" id="debt-form-title">+ Tambah Hutang</div>
@@ -1409,14 +1374,14 @@
         <button class="add-btn" onclick="addDebt()">Tambah</button>
       </div>
     </div>
- 
+
     <!-- List -->
     <div class="debt-list" id="debt-list"></div>
   </div>
- 
+
 </main>
 </div>
- 
+
 <!-- Edit Modal -->
 <div class="modal-backdrop" id="edit-modal" style="display:none;" onclick="closeEditModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
@@ -1477,7 +1442,7 @@
     </div>
   </div>
 </div>
- 
+
 <script>
 // ─── Waktu lokal (bukan UTC) ──────────────────────────────
 // new Date().toISOString() selalu UTC — di WIB (UTC+7) bisa beda hari.
@@ -1492,12 +1457,12 @@ function localDateStr(d) {
 function localYearMonth(d) {
   return localDateStr(d).slice(0, 7);
 }
- 
+
 // ─── UUID (simple, collision-safe) ───────────────────────
 function uuid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
- 
+
 // ─── Migrasi data lama ────────────────────────────────────
 // Transaksi sebelum v5 tidak punya isoDate — isi dengan tanggal hari ini
 // sebagai fallback agar edit modal tidak salah
@@ -1527,7 +1492,7 @@ function migrateOldData(s) {
   });
   return s;
 }
- 
+
 // ─── State ───────────────────────────────────────────────
 let state = migrateOldData(JSON.parse(localStorage.getItem('catatku_v2') || 'null') || {
   transactions: {},
@@ -1549,7 +1514,7 @@ let state = migrateOldData(JSON.parse(localStorage.getItem('catatku_v2') || 'nul
   currentType: 'income',
   activeMonth: localYearMonth()
 });
- 
+
 function save() {
   // Trim streakDays
   if (state.streakDays && state.streakDays.length > 400) {
@@ -1568,13 +1533,13 @@ function save() {
   syncToFirestore();
   updateStorageIndicator();
 }
- 
+
 function showStorageWarning(sizeKB) {
   if (window._storageWarnShown) return;
   window._storageWarnShown = true;
   showToast(`⚠️ Data hampir penuh (${sizeKB}KB / ~5000KB). Segera export backup.`);
 }
- 
+
 // ─── Auto-reset bulan aktif jika sudah bulan baru ────────
 (function autoResetMonth() {
   const realMonth = localYearMonth();
@@ -1590,14 +1555,14 @@ function showStorageWarning(sizeKB) {
     }
   }
 })();
- 
+
 // ─── Month helpers ────────────────────────────────────────
 function monthLabel(ym) {
   const [y, m] = ym.split('-');
   const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
   return months[parseInt(m)-1] + ' ' + y;
 }
- 
+
 function initMonthSelect() {
   const sel = document.getElementById('month-select');
   sel.innerHTML = '';
@@ -1613,7 +1578,7 @@ function initMonthSelect() {
   }
   document.getElementById('month-badge').textContent = '📅 ' + monthLabel(state.activeMonth);
 }
- 
+
 function changeMonth() {
   state.activeMonth = document.getElementById('month-select').value;
   document.getElementById('month-badge').textContent = '📅 ' + monthLabel(state.activeMonth);
@@ -1621,12 +1586,12 @@ function changeMonth() {
   save();
   refreshAll();
 }
- 
+
 // ─── Formatting ───────────────────────────────────────────
 function fmt(n) {
   return 'Rp ' + Math.abs(Math.round(n)).toLocaleString('id-ID');
 }
- 
+
 // ─── Streak ───────────────────────────────────────────────
 // Dipanggil saat init (setiap buka app) DAN saat addNote
 function updateStreak() {
@@ -1646,28 +1611,28 @@ function updateStreak() {
   }
   document.getElementById('streak-num').textContent = streak;
 }
- 
+
 // ─── Transactions ─────────────────────────────────────────
 function getTxForMonth(ym) {
   return (state.transactions[ym] || []);
 }
- 
+
 function setType(t) {
   state.currentType = t;
   document.getElementById('btn-income').classList.toggle('active', t === 'income');
   document.getElementById('btn-expense').classList.toggle('active', t === 'expense');
 }
- 
+
 function addTx() {
   const desc = document.getElementById('tx-desc').value.trim();
   const amt = parseFloat(document.getElementById('tx-amount').value);
   const cat = document.getElementById('tx-cat').value;
   const dateVal = document.getElementById('tx-date').value;
   if (!desc || !amt || amt <= 0) { showToast('⚠️ Isi keterangan dan jumlah'); return; }
- 
+
   const isoDate = dateVal || localDateStr();
   const displayDate = new Date(isoDate + 'T00:00:00').toLocaleDateString('id-ID', { day:'2-digit', month:'short', year:'numeric' });
- 
+
   // Simpan ke bulan sesuai tanggal transaksi (bukan activeMonth)
   const txMonth = isoDate.slice(0,7);
   if (!state.transactions[txMonth]) state.transactions[txMonth] = [];
@@ -1678,20 +1643,20 @@ function addTx() {
     isoDate,
     date: displayDate
   });
- 
+
   // Beri tahu user jika transaksi masuk ke bulan berbeda dari yang aktif
   if (txMonth !== state.activeMonth) {
     showToast(`✅ Transaksi disimpan ke ${monthLabel(txMonth)}`);
   } else {
     showToast('✅ Transaksi ditambahkan');
   }
- 
+
   document.getElementById('tx-desc').value = '';
   document.getElementById('tx-amount').value = '';
   save();
   refreshAll();
 }
- 
+
 let txFilter = 'all';
 function filterTx(f, btn) {
   txFilter = f;
@@ -1699,7 +1664,7 @@ function filterTx(f, btn) {
   btn.classList.add('active');
   renderTxList();
 }
- 
+
 function deleteTx(id) {
   const ym = state.activeMonth;
   const tx = (state.transactions[ym]||[]).find(t => t.id === id);
@@ -1712,38 +1677,38 @@ function deleteTx(id) {
     }
   );
 }
- 
+
 let editingId = null;
 let editingType = 'income';
- 
+
 function openEditModal(id) {
   const ym = state.activeMonth;
   const tx = (state.transactions[ym]||[]).find(t => t.id === id);
   if (!tx) return;
   editingId = id;
   editingType = tx.type;
- 
+
   document.getElementById('edit-desc').value = tx.desc;
   document.getElementById('edit-amount').value = tx.amount;
   document.getElementById('edit-date').value = tx.isoDate || localDateStr();
   document.getElementById('edit-cat').value = tx.cat;
   setEditType(tx.type);
- 
+
   document.getElementById('edit-modal').style.display = 'flex';
 }
- 
+
 function closeEditModal(e) {
   if (e && e.target !== document.getElementById('edit-modal')) return;
   document.getElementById('edit-modal').style.display = 'none';
   editingId = null;
 }
- 
+
 function setEditType(t) {
   editingType = t;
   document.getElementById('edit-btn-income').classList.toggle('active', t === 'income');
   document.getElementById('edit-btn-expense').classList.toggle('active', t === 'expense');
 }
- 
+
 function saveEdit() {
   if (!editingId) return;
   const desc = document.getElementById('edit-desc').value.trim();
@@ -1751,11 +1716,11 @@ function saveEdit() {
   const cat = document.getElementById('edit-cat').value;
   const dateVal = document.getElementById('edit-date').value;
   if (!desc || !amt || amt <= 0) { showToast('⚠️ Isi keterangan dan jumlah'); return; }
- 
+
   const isoDate = dateVal || localDateStr();
   const displayDate = new Date(isoDate + 'T00:00:00').toLocaleDateString('id-ID', { day:'2-digit', month:'short', year:'numeric' });
   const newMonth = isoDate.slice(0,7);
- 
+
   const ym = state.activeMonth;
   const idx = (state.transactions[ym]||[]).findIndex(t => t.id === editingId);
   if (idx > -1) {
@@ -1776,13 +1741,13 @@ function saveEdit() {
   save();
   refreshAll();
 }
- 
+
 const CAT_ICONS = {
   'Makan & Minum':'🍜','Transportasi':'🚗','Tagihan & Utilitas':'💡','Kesehatan':'🏥',
   'Sewa / KPR':'🏠','Hiburan':'🎮','Belanja':'🛍️','Makan di Luar':'🍽️','Langganan':'📱',
   'Tabungan':'🏦','Investasi':'📈','Gaji':'💼','Freelance':'💻','Bisnis':'🏢','Dividen':'💰','Lainnya':'📦'
 };
- 
+
 // ─── XSS protection ───────────────────────────────────────
 function esc(str) {
   if (!str) return '';
@@ -1793,7 +1758,7 @@ function esc(str) {
     .replace(/"/g,'&quot;')
     .replace(/'/g,'&#039;');
 }
- 
+
 function txItemHTML(tx, showDel=true) {
   const icon = CAT_ICONS[tx.cat] || '💳';
   return `<div class="tx-item">
@@ -1809,7 +1774,7 @@ function txItemHTML(tx, showDel=true) {
     </div>` : ''}
   </div>`;
 }
- 
+
 function renderTxList() {
   const txs = getTxForMonth(state.activeMonth);
   const filtered = txFilter === 'all' ? txs : txs.filter(t => t.type === txFilter);
@@ -1818,14 +1783,14 @@ function renderTxList() {
   el.innerHTML = filtered.length ? filtered.map(t => txItemHTML(t)).join('') :
     `<div class="empty-state"><div class="empty-icon">📭</div>Belum ada transaksi</div>`;
 }
- 
+
 function renderRecentTx() {
   const txs = getTxForMonth(state.activeMonth).slice(0,5);
   const el = document.getElementById('recent-tx-list');
   el.innerHTML = txs.length ? txs.map(t => txItemHTML(t, false)).join('') :
     `<div class="empty-state"><div class="empty-icon">📭</div>Belum ada transaksi bulan ini</div>`;
 }
- 
+
 // ─── Summary ───────────────────────────────────────────────
 function calcSummary(ym) {
   const txs = getTxForMonth(ym);
@@ -1835,7 +1800,7 @@ function calcSummary(ym) {
     inCount: txs.filter(t=>t.type==='income').length,
     outCount: txs.filter(t=>t.type==='expense').length };
 }
- 
+
 function renderDashboard() {
   const ym = state.activeMonth;
   document.getElementById('dash-month-title').textContent = 'Dashboard — ' + monthLabel(ym);
@@ -1848,7 +1813,7 @@ function renderDashboard() {
   const balEl = document.getElementById('bal-status');
   if (s.balance >= 0) { balEl.textContent = '✅ Keuangan sehat'; balEl.style.color='var(--green)'; }
   else { balEl.textContent = '⚠️ Pengeluaran melebihi pemasukan'; balEl.style.color='var(--red)'; }
- 
+
   // Category breakdown
   const txs = getTxForMonth(ym).filter(t=>t.type==='expense');
   const bycat = {};
@@ -1870,7 +1835,7 @@ function renderDashboard() {
       </div>`;
     }).join('');
   }
- 
+
   // 50/30/20
   const needs = ['Makan & Minum','Transportasi','Tagihan & Utilitas','Kesehatan','Sewa / KPR'];
   const wants = ['Hiburan','Belanja','Makan di Luar','Langganan'];
@@ -1895,36 +1860,36 @@ function renderDashboard() {
       <div class="bud-bar-wrap"><div class="bud-bar" style="width:${Math.min(r.actual,100)}%;background:${color};"></div></div>
     </div>`;
   }).join('');
- 
+
   // Debt overview on dashboard
   const debts = state.debts || [];
   const hutangsAktif = debts.filter(d=>d.type==='hutang'&&d.status!=='lunas');
   const piutangAktif = debts.filter(d=>d.type==='piutang'&&d.status!=='lunas');
- 
+
   const totalHutang = hutangsAktif.reduce((a,d)=>{
     const paid=(d.payments||[]).reduce((s,p)=>s+p.amount,0); return a+Math.max(0,d.amount-paid);
   },0);
   const totalPiutang = piutangAktif.reduce((a,d)=>{
     const paid=(d.payments||[]).reduce((s,p)=>s+p.amount,0); return a+Math.max(0,d.amount-paid);
   },0);
- 
+
   document.getElementById('dash-total-hutang').textContent = fmt(totalHutang);
   document.getElementById('dash-hutang-info').textContent = hutangsAktif.length + ' pos aktif'
     + (debts.filter(d=>d.type==='hutang'&&d.status==='lunas').length > 0
       ? ' · '+debts.filter(d=>d.type==='hutang'&&d.status==='lunas').length+' lunas' : '');
- 
+
   document.getElementById('dash-total-piutang').textContent = fmt(totalPiutang);
   document.getElementById('dash-piutang-info').textContent = piutangAktif.length + ' pos aktif'
     + (debts.filter(d=>d.type==='piutang'&&d.status==='lunas').length > 0
       ? ' · '+debts.filter(d=>d.type==='piutang'&&d.status==='lunas').length+' lunas' : '');
 }
- 
+
 // ─── Budget ────────────────────────────────────────────────
 function renderBudget() {
   const txs = getTxForMonth(state.activeMonth).filter(t=>t.type==='expense');
   const spent = {};
   txs.forEach(t => { spent[t.cat] = (spent[t.cat]||0) + t.amount; });
- 
+
   const allCats = Object.keys(state.budgets);
   const el = document.getElementById('budget-grid');
   el.innerHTML = allCats.map(cat => {
@@ -1949,12 +1914,12 @@ function renderBudget() {
     </div>`;
   }).join('');
 }
- 
+
 function catToId(cat) {
   // Encode kategori menjadi ID HTML yang aman
   return 'budg-' + cat.replace(/[^a-zA-Z0-9]/g, '_');
 }
- 
+
 function setBudget(cat) {
   const val = parseFloat(document.getElementById(catToId(cat)).value);
   if (!isNaN(val) && val >= 0) {
@@ -1964,7 +1929,7 @@ function setBudget(cat) {
     showToast('✅ Anggaran diperbarui');
   }
 }
- 
+
 // ─── Goals ────────────────────────────────────────────────
 function addGoal() {
   const name = document.getElementById('goal-name').value.trim();
@@ -1979,18 +1944,18 @@ function addGoal() {
   renderGoals();
   showToast('🏆 Tujuan ditambahkan!');
 }
- 
+
 function updateGoalSaved(id, val) {
   const g = state.goals.find(g=>g.id===id);
   if (g) { g.saved = Math.max(0, val); g.manualOverride = true; save(); renderGoals(); }
 }
- 
+
 function deleteGoal(id) {
   state.goals = state.goals.filter(g=>g.id!==id);
   save();
   renderGoals();
 }
- 
+
 // Hitung total tabungan & investasi dari semua transaksi semua bulan
 // Hanya kategori Tabungan/Investasi dengan tipe expense (pengeluaran keluar)
 function calcTotalSavingsTx() {
@@ -2003,17 +1968,17 @@ function calcTotalSavingsTx() {
   });
   return total;
 }
- 
+
 function renderGoals() {
   const el = document.getElementById('goal-list');
   if (!state.goals.length) {
     el.innerHTML = `<div class="empty-state"><div class="empty-icon">🎯</div>Belum ada tujuan finansial</div>`;
     return;
   }
- 
+
   // Total dari transaksi Tabungan+Investasi semua bulan
   const autoSaved = calcTotalSavingsTx();
- 
+
   el.innerHTML = state.goals.map(g => {
     // Jika tidak ada manualOverride, gunakan nilai dari transaksi sebagai referensi info
     const displaySaved = g.saved;
@@ -2043,17 +2008,17 @@ function renderGoals() {
     </div>`;
   }).join('');
 }
- 
+
 function applyAutoSaved(id, amount) {
   const g = state.goals.find(g=>g.id===id);
   if (g) { g.saved = amount; g.manualOverride = false; save(); renderGoals(); showToast('✅ Dana diperbarui dari transaksi'); }
 }
- 
+
 function resetGoalToAuto(id) {
   const g = state.goals.find(g=>g.id===id);
   if (g) { g.manualOverride = false; save(); renderGoals(); }
 }
- 
+
 // ─── Notes ────────────────────────────────────────────────
 function addNote() {
   const text = document.getElementById('note-input').value.trim();
@@ -2068,13 +2033,13 @@ function addNote() {
   renderNotes();
   updateStreak();
 }
- 
+
 function deleteNote(id) {
   state.notes = state.notes.filter(n=>n.id!==id);
   save();
   renderNotes();
 }
- 
+
 function renderNotes() {
   const el = document.getElementById('note-list');
   el.innerHTML = state.notes.length ? state.notes.map(n =>
@@ -2085,7 +2050,7 @@ function renderNotes() {
     </div>`
   ).join('') : `<div style="color:var(--muted);font-size:12px;padding:8px;">Belum ada catatan hari ini.</div>`;
 }
- 
+
 // ─── Trend ────────────────────────────────────────────────
 function renderTrend() {
   const months = [];
@@ -2094,10 +2059,10 @@ function renderTrend() {
     const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
     months.push(localYearMonth(d));
   }
- 
+
   const data = months.map(ym => ({ ym, ...calcSummary(ym) }));
   const maxVal = Math.max(...data.map(d=>Math.max(d.income,d.expense)), 1);
- 
+
   const chart = document.getElementById('bar-chart');
   chart.innerHTML = data.map(d => {
     const ih = Math.round(d.income/maxVal*100);
@@ -2107,11 +2072,11 @@ function renderTrend() {
       <div class="bar expense" style="height:${eh}%;" title="${fmt(d.expense)}"></div>
     </div>`;
   }).join('');
- 
+
   document.getElementById('bar-labels').innerHTML = data.map(d =>
     `<div class="bar-label">${monthLabel(d.ym).slice(0,3)}</div>`
   ).join('');
- 
+
   // All months summary
   const allYM = Object.keys(state.transactions).sort().reverse();
   const sumEl = document.getElementById('all-months-summary');
@@ -2127,10 +2092,10 @@ function renderTrend() {
     </div>`;
   }).join('');
 }
- 
+
 // ─── Hutang & Piutang ─────────────────────────────────────
 let activeDebtTab = 'hutang';
- 
+
 function switchDebtTab(tab) {
   activeDebtTab = tab;
   document.getElementById('dtab-hutang').classList.toggle('active', tab === 'hutang');
@@ -2150,14 +2115,14 @@ function switchDebtTab(tab) {
   renderDebtList();
   renderDebtSummary();
 }
- 
+
 function addDebt() {
   const who = document.getElementById('debt-who').value.trim();
   const amount = parseFloat(document.getElementById('debt-amount').value);
   const dateVal = document.getElementById('debt-date').value;
   const note = document.getElementById('debt-note').value.trim();
   if (!who || !amount || amount <= 0) { showToast('⚠️ Isi nama dan jumlah'); return; }
- 
+
   if (!state.debts) state.debts = [];
   state.debts.unshift({
     id: uuid(),
@@ -2167,7 +2132,7 @@ function addDebt() {
     status: 'aktif',
     payments: []
   });
- 
+
   document.getElementById('debt-who').value = '';
   document.getElementById('debt-amount').value = '';
   document.getElementById('debt-note').value = '';
@@ -2176,7 +2141,7 @@ function addDebt() {
   renderDebtSummary();
   showToast(activeDebtTab === 'hutang' ? '✅ Hutang dicatat' : '✅ Piutang dicatat');
 }
- 
+
 function deleteDebt(id) {
   const d = (state.debts||[]).find(x => x.id === id);
   const label = d ? `"${d.who}" (${fmt(d.amount)})` : 'ini';
@@ -2186,7 +2151,7 @@ function deleteDebt(id) {
     showToast('🗑 Catatan dihapus');
   });
 }
- 
+
 function markLunas(id) {
   const d = (state.debts||[]).find(d => d.id === id);
   if (!d) return;
@@ -2197,14 +2162,14 @@ function markLunas(id) {
   renderDebtSummary();
   showToast('🎉 Ditandai lunas!');
 }
- 
+
 function addPayment(id) {
   const amtEl = document.getElementById('pay-amt-' + id);
   const dateEl = document.getElementById('pay-date-' + id);
   const noteEl = document.getElementById('pay-note-' + id);
   const amt = parseFloat(amtEl.value);
   if (!amt || amt <= 0) { showToast('⚠️ Masukkan jumlah pembayaran'); return; }
- 
+
   const d = (state.debts||[]).find(d => d.id === id);
   if (!d) return;
   d.payments = d.payments || [];
@@ -2214,10 +2179,10 @@ function addPayment(id) {
     isoDate: dateEl.value || localDateStr(),
     note: noteEl.value.trim() || '-'
   });
- 
+
   const totalPaid = d.payments.reduce((a,p)=>a+p.amount, 0);
   if (totalPaid >= d.amount) { d.status = 'lunas'; d.lunasDate = localDateStr(); }
- 
+
   amtEl.value = '';
   noteEl.value = '';
   save();
@@ -2225,7 +2190,7 @@ function addPayment(id) {
   renderDebtSummary();
   showToast('💸 Pembayaran dicatat');
 }
- 
+
 function deletePayment(debtId, payId) {
   const d = (state.debts||[]).find(d => d.id === debtId);
   if (!d) return;
@@ -2236,96 +2201,17 @@ function deletePayment(debtId, payId) {
   renderDebtList();
   renderDebtSummary();
 }
- 
-function addDebtAmount(id) {
-  const amtEl = document.getElementById('adddebt-amt-' + id);
-  const dateEl = document.getElementById('adddebt-date-' + id);
-  const noteEl = document.getElementById('adddebt-note-' + id);
-  const amt = parseFloat(amtEl.value);
-  if (!amt || amt <= 0) { showToast('⚠️ Masukkan jumlah tambahan'); return; }
- 
-  const d = (state.debts||[]).find(d => d.id === id);
-  if (!d) return;
-  if (!d.originalAmount) d.originalAmount = d.amount;
-  d.additions = d.additions || [];
-  d.additions.unshift({
-    id: uuid(),
-    amount: amt,
-    isoDate: dateEl.value || localDateStr(),
-    note: noteEl.value.trim() || '-'
-  });
-  // Update total amount
-  const totalAdded = d.additions.reduce((a,x)=>a+x.amount, 0);
-  d.amount = d.originalAmount + totalAdded;
- 
-  amtEl.value = '';
-  noteEl.value = '';
-  save();
-  renderDebtList();
-  renderDebtSummary();
-  showToast('➕ Hutang bertambah');
-}
- 
-function deleteDebtAddition(debtId, addId) {
-  const d = (state.debts||[]).find(d => d.id === debtId);
-  if (!d) return;
-  d.additions = (d.additions||[]).filter(x => x.id !== addId);
-  const totalAdded = d.additions.reduce((a,x)=>a+x.amount, 0);
-  d.amount = (d.originalAmount || d.amount) + totalAdded;
-  save();
-  renderDebtList();
-  renderDebtSummary();
-}
- 
-function buildCombinedHistory(d) {
-  const payments = (d.payments||[]).map(p => ({ ...p, _kind: 'bayar' }));
-  const additions = (d.additions||[]).map(x => ({ ...x, _kind: 'tambah' }));
-  const combined = [...payments, ...additions].sort((a,b) => b.isoDate > a.isoDate ? 1 : -1);
-  if (!combined.length) return '';
-  return combined.map(item => {
-    const tgl = new Date(item.isoDate+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
-    if (item._kind === 'bayar') {
-      return `<div class="cicilan-item">
-        <span class="cicilan-date">${tgl}</span>
-        <span class="cicilan-note" style="color:var(--muted2);">${esc(item.note)}</span>
-        <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:var(--green-dim);color:var(--green);font-weight:600;">Bayar</span>
-        <span class="cicilan-amt">+${fmt(item.amount)}</span>
-        <button class="cicilan-del" onclick="deletePayment('${d.id}','${item.id}')">✕</button>
-      </div>`;
-    } else {
-      return `<div class="cicilan-item">
-        <span class="cicilan-date">${tgl}</span>
-        <span class="cicilan-note" style="color:var(--muted2);">${esc(item.note)}</span>
-        <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:var(--amber-dim);color:var(--amber);font-weight:600;">Tambah</span>
-        <span class="cicilan-amt tambah">+${fmt(item.amount)}</span>
-        <button class="cicilan-del" onclick="deleteDebtAddition('${d.id}','${item.id}')">✕</button>
-      </div>`;
-    }
-  }).join('');
-}
- 
-function switchDetailTab(id, tab) {
-  const panelBayar = document.getElementById('dpanel-bayar-' + id);
-  const panelTambah = document.getElementById('dpanel-tambah-' + id);
-  const tabBayar = document.getElementById('dtab-bayar-' + id);
-  const tabTambah = document.getElementById('dtab-tambah-' + id);
-  if (!panelBayar || !panelTambah) return;
-  panelBayar.classList.toggle('active', tab === 'bayar');
-  panelTambah.classList.toggle('active', tab === 'tambah');
-  tabBayar.classList.toggle('active', tab === 'bayar');
-  tabTambah.classList.toggle('active', tab === 'tambah');
-}
- 
+
 function toggleDebtDetail(id) {
   const el = document.getElementById('detail-' + id);
   if (el) el.classList.toggle('open');
 }
- 
+
 function renderDebtSummary() {
   const debts = state.debts || [];
   const hutangs = debts.filter(d => d.type === 'hutang');
   const piutangs = debts.filter(d => d.type === 'piutang');
- 
+
   const totalHutang = hutangs.filter(d=>d.status!=='lunas').reduce((a,d) => {
     const paid = (d.payments||[]).reduce((s,p)=>s+p.amount,0);
     return a + Math.max(0, d.amount - paid);
@@ -2335,12 +2221,12 @@ function renderDebtSummary() {
     return a + Math.max(0, d.amount - paid);
   }, 0);
   const totalLunas = debts.filter(d=>d.status==='lunas').length;
- 
+
   const hCount = hutangs.filter(d=>d.status!=='lunas').length;
   const pCount = piutangs.filter(d=>d.status!=='lunas').length;
   document.getElementById('hutang-count-badge').textContent = hCount > 0 ? `(${hCount})` : '';
   document.getElementById('piutang-count-badge').textContent = pCount > 0 ? `(${pCount})` : '';
- 
+
   const isHutang = activeDebtTab === 'hutang';
   const items = isHutang ? hutangs : piutangs;
   const totalPokok = items.reduce((a,d)=>a+d.amount,0);
@@ -2352,7 +2238,7 @@ function renderDebtSummary() {
     return a + Math.max(0, d.amount - paid);
   }, 0);
   const lunasCount = items.filter(d=>d.status==='lunas').length;
- 
+
   document.getElementById('debt-summary-row').innerHTML = `
     <div class="debt-sum-card ${activeDebtTab}">
       <div class="debt-sum-label">Total Pokok</div>
@@ -2367,7 +2253,7 @@ function renderDebtSummary() {
       <div class="debt-sum-val" style="color:${totalSisa>0?(isHutang?'var(--red)':'var(--blue)'):'var(--green)'};">${fmt(totalSisa)}</div>
     </div>`;
 }
- 
+
 function renderDebtList() {
   const debts = (state.debts||[]).filter(d => d.type === activeDebtTab);
   const el = document.getElementById('debt-list');
@@ -2375,7 +2261,7 @@ function renderDebtList() {
     el.innerHTML = `<div class="empty-state"><div class="empty-icon">${activeDebtTab==='hutang'?'🔴':'🔵'}</div>Belum ada ${activeDebtTab === 'hutang' ? 'hutang' : 'piutang'} yang dicatat</div>`;
     return;
   }
- 
+
   // Sort: aktif first, lunas last
   const sorted = [...debts].sort((a,b) => {
     if (a.status === 'lunas' && b.status !== 'lunas') return 1;
@@ -2385,7 +2271,7 @@ function renderDebtList() {
     const bKey = b.isoDate || String(b.id);
     return bKey > aKey ? 1 : bKey < aKey ? -1 : 0;
   });
- 
+
   el.innerHTML = sorted.map(d => {
     if (!d || !d.id) return ''; // skip invalid entries
     const paid = (d.payments||[]).reduce((a,p)=>a+p.amount,0);
@@ -2403,10 +2289,18 @@ function renderDebtList() {
       : d.type === 'hutang'
         ? `<span class="badge-aktif-hutang">Aktif</span>`
         : `<span class="badge-aktif-piutang">Aktif</span>`;
- 
+
     const todayVal = localDateStr();
- 
- 
+
+    const paymentRows = (d.payments||[]).map(p =>
+      `<div class="cicilan-item">
+        <span class="cicilan-date">${new Date(p.isoDate+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'})}</span>
+        <span class="cicilan-note">${esc(p.note)}</span>
+        <span class="cicilan-amt">+${fmt(p.amount)}</span>
+        <button class="cicilan-del" onclick="deletePayment('${d.id}','${p.id}')">✕</button>
+      </div>`
+    ).join('');
+
     return `<div class="debt-card ${cls}">
       <div class="debt-card-header" onclick="toggleDebtDetail('${d.id}')">
         <div class="debt-avatar ${cls}">${esc(initials)}</div>
@@ -2439,39 +2333,20 @@ function renderDebtList() {
             </div>
           </div>
         </div>
- 
+
         <div class="cicilan-section">
-          ${!isLunas ? `
-          <div class="detail-tabs">
-            <button class="detail-tab active" id="dtab-bayar-${d.id}" onclick="switchDetailTab('${d.id}','bayar')">💸 Catat Pembayaran</button>
-            <button class="detail-tab" id="dtab-tambah-${d.id}" onclick="switchDetailTab('${d.id}','tambah')">➕ Tambah Hutang</button>
-          </div>
-          <div class="detail-tab-panel active" id="dpanel-bayar-${d.id}">
-            <div class="cicilan-title">Catat Pembayaran</div>
-            <div class="cicilan-add-row">
-              <input type="number" id="pay-amt-${d.id}" placeholder="Jumlah bayar (Rp)..." min="0"/>
-              <input type="date" id="pay-date-${d.id}" value="${todayVal}"/>
-              <input type="text" id="pay-note-${d.id}" placeholder="Keterangan..."/>
-              <button class="cicilan-btn" onclick="addPayment('${d.id}')">+ Catat</button>
-            </div>
-          </div>
-          <div class="detail-tab-panel" id="dpanel-tambah-${d.id}">
-            <div class="cicilan-title">Tambah Nominal Hutang</div>
-            ${d.originalAmount ? `<div style="font-size:11px;color:var(--amber);background:var(--amber-dim);border-radius:6px;padding:6px 10px;margin-bottom:8px;">📌 Pokok awal: ${fmt(d.originalAmount)} · Ditambah ${(d.additions||[]).length}× (${fmt((d.additions||[]).reduce((a,x)=>a+x.amount,0))})</div>` : ''}
-            <div class="cicilan-add-row">
-              <input type="number" id="adddebt-amt-${d.id}" placeholder="Jumlah tambahan (Rp)..." min="0"/>
-              <input type="date" id="adddebt-date-${d.id}" value="${todayVal}"/>
-              <input type="text" id="adddebt-note-${d.id}" placeholder="Alasan / keterangan..."/>
-              <button class="tambah-hutang-btn" onclick="addDebtAmount('${d.id}')">+ Tambah</button>
-            </div>
-          </div>
-          ` : ''}
-          <div class="cicilan-title" style="margin-top:${!isLunas?'10px':'0'};">Riwayat ${isLunas ? 'Pembayaran' : 'Lengkap'}</div>
+          <div class="cicilan-title">Riwayat Pembayaran</div>
+          ${!isLunas ? `<div class="cicilan-add-row">
+            <input type="number" id="pay-amt-${d.id}" placeholder="Jumlah bayar (Rp)..." min="0"/>
+            <input type="date" id="pay-date-${d.id}" value="${todayVal}"/>
+            <input type="text" id="pay-note-${d.id}" placeholder="Keterangan..."/>
+            <button class="cicilan-btn" onclick="addPayment('${d.id}')">+ Catat</button>
+          </div>` : ''}
           <div class="cicilan-list">
-            ${buildCombinedHistory(d) || `<div style="color:var(--muted);font-size:12px;padding:6px 0;">Belum ada riwayat.</div>`}
+            ${paymentRows || `<div style="color:var(--muted);font-size:12px;padding:6px 0;">Belum ada pembayaran.</div>`}
           </div>
         </div>
- 
+
         <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end;">
           ${!isLunas ? `<button class="lunas-btn" onclick="markLunas('${d.id}')">✓ Tandai Lunas</button>` : ''}
           <button class="del-debt-btn" onclick="deleteDebt('${d.id}')">🗑 Hapus</button>
@@ -2480,7 +2355,7 @@ function renderDebtList() {
     </div>`;
   }).join('');
 }
- 
+
 // ─── View navigation ──────────────────────────────────────
 function showView(v) {
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
@@ -2494,7 +2369,7 @@ function showView(v) {
   if (v === 'hutang') { renderDebtList(); renderDebtSummary(); return; }
   refreshAll();
 }
- 
+
 // ─── Export & Import ──────────────────────────────────────
 function exportData() {
   const data = JSON.stringify(state, null, 2);
@@ -2508,12 +2383,12 @@ function exportData() {
   URL.revokeObjectURL(url);
   showToast('⬇ Data berhasil diekspor');
 }
- 
+
 function importData(event) {
   const file = event.target.files[0];
   if (!file) return;
   if (!file.name.endsWith('.json')) { showToast('⚠️ File harus berformat .json'); return; }
- 
+
   const reader = new FileReader();
   reader.onload = function(e) {
     try {
@@ -2541,7 +2416,7 @@ function importData(event) {
   // Reset input agar file yang sama bisa diimport lagi jika perlu
   event.target.value = '';
 }
- 
+
 // ─── Storage indicator ────────────────────────────────────
 function updateStorageIndicator() {
   try {
@@ -2554,8 +2429,8 @@ function updateStorageIndicator() {
     el.innerHTML = `<span style="color:${color};">💾 ${sizeKB}KB / ~5120KB (${pct}%)</span>`;
   } catch(e) {}
 }
- 
- 
+
+
 function refreshAll() {
   renderDashboard();
   renderTxList();
@@ -2567,7 +2442,7 @@ function refreshAll() {
   renderDebtSummary();
   updateStorageIndicator();
 }
- 
+
 // ─── Custom confirm dialog (menggantikan native confirm()) ─
 function showConfirm(msg, onYes, onNo) {
   const backdrop = document.createElement('div');
@@ -2585,7 +2460,7 @@ function showConfirm(msg, onYes, onNo) {
   backdrop.querySelector('#conf-yes').onclick = () => { backdrop.remove(); if(onYes) onYes(); };
   backdrop.onclick = (e) => { if(e.target===backdrop){ backdrop.remove(); if(onNo) onNo(); } };
 }
- 
+
 // ─── Mobile nav helpers ───────────────────────────────────
 function toggleSidebar() {
   document.querySelector('.sidebar').classList.toggle('open');
@@ -2615,7 +2490,7 @@ function toggleMobMore() {
 function closeMobMore() {
   document.getElementById('mob-more-menu').style.display = 'none';
 }
- 
+
 // ─── Toast ────────────────────────────────────────────────
 function showToast(msg) {
   const t = document.createElement('div');
@@ -2624,7 +2499,7 @@ function showToast(msg) {
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 2500);
 }
- 
+
 // ─── PWA: Manifest inline (aman di semua environment) ─────
 (function initPWA() {
   try {
@@ -2651,7 +2526,7 @@ function showToast(msg) {
   } catch(e) {
     // Manifest gagal — tidak masalah, app tetap jalan
   }
- 
+
   // Service Worker: hanya daftarkan jika ada file sw.js terpisah
   // (untuk GitHub Pages single-file, SW dilewati agar tidak error)
   // Untuk mengaktifkan offline support, upload sw.js terpisah ke repo
@@ -2667,9 +2542,9 @@ function showToast(msg) {
       .catch(() => {}); // sw.js tidak ada — skip, app tetap jalan
   }
 })();
- 
- 
- 
+
+
+
 // ─── Init (dijalankan setelah login Firebase) ──────────────
 function initApp() {
   initMonthSelect();
@@ -2681,7 +2556,7 @@ function initApp() {
   refreshAll();
   setMobActive('dashboard');
 }
- 
+
 // ─── Firebase ─────────────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyAAAasRIY_32bKDENYtOHXNy1ZSEvXTmJw",
@@ -2691,14 +2566,14 @@ const firebaseConfig = {
   messagingSenderId: "235907298062",
   appId: "1:235907298062:web:507905cf776fc465155d5f"
 };
- 
+
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db   = firebase.firestore();
- 
+
 let currentUser = null;
 let syncTimeout = null;
- 
+
 // ── Login & Logout ────────────────────────────────────────
 function signInGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
@@ -2706,31 +2581,34 @@ function signInGoogle() {
     showToast('⚠️ Login gagal: ' + e.message);
   });
 }
- 
+
 function signOut() {
   showConfirm('Keluar dari akun Google?', () => {
     auth.signOut();
   });
 }
- 
+
 // ── Auth state listener ───────────────────────────────────
 auth.onAuthStateChanged(async user => {
   if (user) {
     currentUser = user;
- 
+
     // Tampilkan user bar
     document.getElementById('auth-overlay').style.display = 'none';
     document.getElementById('auth-user-bar').classList.remove('hidden');
     document.getElementById('auth-avatar').src = user.photoURL || '';
     document.getElementById('auth-username').textContent = user.displayName || user.email;
     document.body.classList.add('auth-logged-in');
- 
+
     // Load data dari Firestore
     await loadFromFirestore();
- 
+
     // Jalankan app
     initApp();
- 
+
+    // Auto-backup mingguan (setelah data dimuat)
+    setTimeout(checkAutoBackup, 2000);
+
     // Realtime listener — update otomatis jika ada perubahan dari device lain
     db.collection('users').doc(currentUser.uid).collection('data').doc('state')
       .onSnapshot(snap => {
@@ -2746,7 +2624,7 @@ auth.onAuthStateChanged(async user => {
           }
         }
       });
- 
+
   } else {
     currentUser = null;
     document.getElementById('auth-overlay').style.display = 'flex';
@@ -2754,14 +2632,14 @@ auth.onAuthStateChanged(async user => {
     document.body.classList.remove('auth-logged-in');
   }
 });
- 
+
 // ── Load dari Firestore ───────────────────────────────────
 async function loadFromFirestore() {
   try {
     showSyncBadge('🔄 Memuat data...');
     const doc = await db.collection('users').doc(currentUser.uid)
       .collection('data').doc('state').get();
- 
+
     if (doc.exists) {
       const remote = doc.data().payload;
       // Gunakan data terbaru antara remote dan lokal
@@ -2781,13 +2659,39 @@ async function loadFromFirestore() {
     console.log('Firestore load error:', e.message);
   }
 }
- 
+
 // ── Sync ke Firestore (debounced) ─────────────────────────
+function countTransactions(s) {
+  return Object.values(s.transactions || {}).reduce((sum, arr) => sum + arr.length, 0);
+}
+
 function syncToFirestore() {
   if (!currentUser) return;
   clearTimeout(syncTimeout);
   syncTimeout = setTimeout(async () => {
     try {
+      // Guard: jangan timpa Firestore kalau state lokal kosong tapi Firestore punya data
+      const localTxCount = countTransactions(state);
+      if (localTxCount === 0) {
+        // Cek dulu isi Firestore sebelum menulis
+        const snap = await db.collection('users').doc(currentUser.uid)
+          .collection('data').doc('state').get();
+        if (snap.exists) {
+          const remote = snap.data().payload;
+          const remoteTxCount = countTransactions(remote);
+          if (remoteTxCount > 0) {
+            // Firestore punya data, lokal kosong — batalkan sync, ambil data Firestore
+            console.warn('[CatatKu] Guard: lokal kosong tapi Firestore ada data — mengambil dari Firestore');
+            state = migrateOldData(remote);
+            try { localStorage.setItem('catatku_v2', JSON.stringify(state)); } catch(e) {}
+            initMonthSelect();
+            refreshAll();
+            showSyncBadge('⚡ Tersinkron');
+            return;
+          }
+        }
+      }
+
       showSyncBadge('🔄 Menyimpan...');
       state._updatedAt = Date.now();
       await db.collection('users').doc(currentUser.uid)
@@ -2800,15 +2704,39 @@ function syncToFirestore() {
     }
   }, 1500);
 }
- 
+
+// ── Auto-backup mingguan ──────────────────────────────────
+function checkAutoBackup() {
+  const INTERVAL_DAYS = 7;
+  const lastBackup = parseInt(localStorage.getItem('catatku_last_backup') || '0');
+  const now = Date.now();
+  const daysSince = (now - lastBackup) / (1000 * 60 * 60 * 24);
+  const txCount = countTransactions(state);
+
+  // Hanya backup kalau ada data dan sudah lewat interval
+  if (txCount > 0 && daysSince >= INTERVAL_DAYS) {
+    const today = localDateStr();
+    const data = JSON.stringify(state, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `catatku-autobackup-${today}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    localStorage.setItem('catatku_last_backup', String(now));
+    showToast('💾 Auto-backup mingguan berhasil diunduh');
+  }
+}
+
 function showSyncBadge(msg) {
   const el = document.getElementById('sync-badge');
   if (el) el.textContent = msg;
 }
- 
- 
- 
- 
+
+
+
+
 </script>
 </body>
 </html>
